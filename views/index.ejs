@@ -1,11 +1,27 @@
-<h1>Your shelf</h1>
-<div>
-    <ul>
-        <% if(booksList.length === 0) {%>
-            <p>No books available.</p>
-        <% } %>
-    </ul>
-</div>
+<%- include('partials/header') %>
+
+<section class="user-books">
+    <h1><em>Your</em> shelf</h1>
+    <div class="book-container">
+            <% if(booksList.length === 0) {%>
+                <p>No books available.</p>
+            <% } else { %>
+                <% booksList.forEach(item =>{ %>
+                    <div class="book-item">
+                    <% if (item.book.cover_edition_key) { %>
+                        <img src="<%= urlCover %><%= item.book.cover_edition_key %>-M.jpg" alt="Book cover">
+                    <% } else { %>
+                        <p>No image available</p>
+                    <% } %>
+                    <h4><%= item.book.title %></h4>
+                    <h5><%= item.book.author_name %></h5>
+                    <p><%=  item.status%></p>
+                    </div>
+                <% }) %>
+            <% } %>
+    </div>
+    <a href="user-shelf">more >></a>
+</section>
 
 <form id="bookFinder" method="post">
     <label for="searchBar"> Add more books </label>
@@ -25,7 +41,23 @@
             <% } %>
             <h5><%= book.title %></h5>
             <h6><%= book.author_name %></h6>
+            <form method="post">
+                <input type="hidden" name="addedBook" value='<%- JSON.stringify(book) %>'>
+                
+                <div id="statusWrapper">
+                    <label for="readingStatus">Select reading status:</label>
+                    <select name="readingStatus" id="readingStatus">
+                        <option value="planning">Planning</option>
+                        <option value="reading">Reading</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </div>
+
+                <input type="submit" value="add" formaction="/add-book">
+            </form>
         </div>
     <% }); %>
     <% } %>
 </div>
+
+<%- include('partials/footer') %>
