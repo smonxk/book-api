@@ -1,0 +1,31 @@
+<h1>Your shelf</h1>
+<div>
+    <ul>
+        <% if(booksList.length === 0) {%>
+            <p>No books available.</p>
+        <% } %>
+    </ul>
+</div>
+
+<form id="bookFinder" method="post">
+    <label for="searchBar"> Add more books </label>
+    <input type="text" id="searchBar" name="searchContent">
+
+    <input id="get" type="submit" value="find" formaction="/find-book">
+</form>
+
+<div>
+    <% if(locals.books){%>
+    <% books.forEach(book => { %>
+        <div>
+            <% if (book.cover_edition_key) { %>
+                <img src="<%= urlCover %><%= book.cover_edition_key %>-M.jpg" alt="Book cover">
+            <% } else { %>
+                <p>No image available</p>
+            <% } %>
+            <h5><%= book.title %></h5>
+            <h6><%= book.author_name %></h6>
+        </div>
+    <% }); %>
+    <% } %>
+</div>
