@@ -4,43 +4,54 @@
     <h1><em>Your</em> shelf</h1>
     <div class="book-container">
             <% if(booksList.length === 0) {%>
-                <p>No books available.</p>
+                <p class="unavailable-error">No books available.</p>
             <% } else { %>
-                <% booksList.forEach(item =>{ %>
+                <% for(const latestItem of booksList.slice(Math.max(booksList.length - 5, 0))){ %>
                     <div class="book-item">
-                    <% if (item.book.cover_edition_key) { %>
-                        <img src="<%= urlCover %><%= item.book.cover_edition_key %>-M.jpg" alt="Book cover">
+                    <% if (latestItem.book.cover_edition_key) { %>
+                        <img src="<%= urlCover %><%= latestItem.book.cover_edition_key %>-M.jpg" alt="Book cover">
                     <% } else { %>
-                        <p>No image available</p>
+                        <div class="no-image">
+                            <p>No image available</p>
+                        </div>
                     <% } %>
-                    <h4><%= item.book.title %></h4>
-                    <h5><%= item.book.author_name %></h5>
-                    <p><%=  item.status%></p>
+                    <h4><%= latestItem.book.title %></h4>
+                    <h5><%= latestItem.book.author_name %></h5>
+                    <p><%=  latestItem.status%></p>
                     </div>
-                <% }) %>
+                <% } %>
             <% } %>
     </div>
-    <a href="user-shelf">more >></a>
+    <a href="user-shelf" id="more-btn">more >></a>
 </section>
 
-<form id="bookFinder" method="post">
-    <label for="searchBar"> Add more books </label>
-    <input type="text" id="searchBar" name="searchContent">
 
-    <input id="get" type="submit" value="find" formaction="/find-book">
+<section id="search-section">
+    <form id="bookFinder" method="post">
+    <label for="searchBar"> Add more books </label>
+
+    <div id="searchbar-container">
+        <input type="text" id="searchBar" name="searchContent" placeholder="Search title...">
+        <input id="get" type="submit" value="🔍︎" formaction="/find-book">
+    </div>
 </form>
 
-<div>
+</section>
+
+<section id="search-result" class="user-books">
     <% if(locals.books){%>
+    <div class="book-container">
     <% books.forEach(book => { %>
-        <div>
+        <div class="book-item">
             <% if (book.cover_edition_key) { %>
                 <img src="<%= urlCover %><%= book.cover_edition_key %>-M.jpg" alt="Book cover">
             <% } else { %>
-                <p>No image available</p>
+                <div class="no-image">
+                    <p>No image available</p>
+                </div>
             <% } %>
-            <h5><%= book.title %></h5>
-            <h6><%= book.author_name %></h6>
+            <h4><%= book.title %></h4>
+            <h5><%= book.author_name %></h5>
             <form method="post">
                 <input type="hidden" name="addedBook" value='<%- JSON.stringify(book) %>'>
                 
@@ -58,6 +69,6 @@
         </div>
     <% }); %>
     <% } %>
-</div>
+    </section>
 
 <%- include('partials/footer') %>
