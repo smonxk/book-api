@@ -1,16 +1,18 @@
 <%- include('partials/header') %>
-    <section class="user-books">
+    <section class="user-books" id="user-section">
     <h1><em>Your</em> shelf</h1>
     <div class="book-container">
             <% if(booksList.length === 0) {%>
-                <p>No books available.</p>
+                <p class="unavailable-error">No books available.</p>
             <% } else { %>
                 <% booksList.forEach(item =>{ %>
                     <div class="book-item">
                     <% if (item.book.cover_edition_key) { %>
                         <img src="<%= urlCover %><%= item.book.cover_edition_key %>-M.jpg" alt="Book cover">
                     <% } else { %>
-                        <p>No image available</p>
+                        <div class="no-image">
+                            <p>No image available</p>
+                        </div>
                     <% } %>
                     <h4><%= item.book.title %></h4>
                     <h5><%= item.book.author_name %></h5>

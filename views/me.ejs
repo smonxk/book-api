@@ -1,2 +1,41 @@
-<%- include('partials/header') %>
-<%- include('partials/footer') %>
+    <%- include('partials/header') %>
+    <br><br>
+    <section id="simona-reading-list">
+        <div class="contact">
+            <div id="simona-full-name">
+                <h2>Simona Dobešová</h2>
+                <small>edited: 30-07-2025</small>
+            </div>
+            <div id="socials" class="closed">
+                <p>dobesovasimona@gmail.com</p>
+                <a href="https://github.com/smonxk">Github</a>
+            </div>
+        </div>
+
+        
+        <div id="simona-books">
+            <% simonaList.forEach(item => { %>
+                <div class="book-item"> 
+                    <div class="simona-status-holder">
+                        <p><em><%= item.status %></em></p>
+                    </div>
+                    <% if(item.book.cover_edition_key) {%>
+                        <img src="<%= urlCover %><%= item.book.cover_edition_key%>-M.jpg" alt="Book cover">
+                    <% } else {%>
+                        <div class="no-image">
+                            <p>No image available</p>
+                        </div>
+                    <% } %>
+                    <div class="book-text">
+                        <h4><%= item.book.title %></h4>
+                        <h5><%= item.book.author_name %></h5>
+                        <small><%= item.motivation %></small>
+                        <p><%= item.reason %></p>
+                    </div>
+                </div>
+
+            <% })%>
+        </div>
+
+    </section>
+    <%- include('partials/footer') %>

@@ -1,13 +1,13 @@
 <%- include('partials/header') %>
 
-<section class="user-books">
+<section class="user-books" id="latest-section">
     <h1><em>Your</em> shelf</h1>
     <div class="book-container">
             <% if(booksList.length === 0) {%>
                 <p class="unavailable-error">No books available.</p>
             <% } else { %>
                 <% for(const latestItem of booksList.slice(Math.max(booksList.length - 5, 0))){ %>
-                    <div class="book-item">
+                    <div class="book-item latest-book">
                     <% if (latestItem.book.cover_edition_key) { %>
                         <img src="<%= urlCover %><%= latestItem.book.cover_edition_key %>-M.jpg" alt="Book cover">
                     <% } else { %>
@@ -15,8 +15,10 @@
                             <p>No image available</p>
                         </div>
                     <% } %>
-                    <h4><%= latestItem.book.title %></h4>
-                    <h5><%= latestItem.book.author_name %></h5>
+                    <div class="book-text">
+                        <h4><%= latestItem.book.title %></h4>
+                        <h5><%= latestItem.book.author_name %></h5>
+                    </div>
                     <p><%=  latestItem.status%></p>
                     </div>
                 <% } %>
@@ -43,31 +45,54 @@
     <div class="book-container">
     <% books.forEach(book => { %>
         <div class="book-item">
-            <% if (book.cover_edition_key) { %>
-                <img src="<%= urlCover %><%= book.cover_edition_key %>-M.jpg" alt="Book cover">
-            <% } else { %>
-                <div class="no-image">
-                    <p>No image available</p>
-                </div>
-            <% } %>
-            <h4><%= book.title %></h4>
-            <h5><%= book.author_name %></h5>
-            <form method="post">
-                <input type="hidden" name="addedBook" value='<%- JSON.stringify(book) %>'>
-                
-                <div id="statusWrapper">
-                    <label for="readingStatus">Select reading status:</label>
-                    <select name="readingStatus" id="readingStatus">
-                        <option value="planning">Planning</option>
-                        <option value="reading">Reading</option>
-                        <option value="finished">Finished</option>
-                    </select>
+            <% if(userBookKeys.includes(book.key)){%>
+                 <% if (book.cover_edition_key) { %>
+                <img src="<%= urlCover %><%= book.cover_edition_key %>-M.jpg" alt="Book cover" class="added">
+                <% } else { %>
+                    <div class="no-image added">
+                        <p>No image available</p>
+                    </div>
+                <% } %>
+                    <div class="book-text added">
+                        <h4><%= book.title %></h4>
+                        <h5><%= book.author_name %></h5>
+                    </div>
+                    <button class="added" type="button">added</button>
                 </div>
 
-                <input type="submit" value="add" formaction="/add-book">
-            </form>
-        </div>
-    <% }); %>
+           <%} else {%>
+                <% if(book.cover_edition_key) { %>
+                <img src="<%= urlCover %><%= book.cover_edition_key %>-S.jpg" alt="Book cover">
+                <% } else { %>
+                    <div class="no-image">
+                        <p>No image available</p>
+                    </div>
+                <% } %>
+                <div class="book-text">
+                    <h4><%= book.title %></h4>
+                    <h5><%= book.author_name %></h5>
+                </div>
+                <div class="form">
+                    <form method="post">
+                        <input type="hidden" name="addedBook" value='<%- JSON.stringify(book) %>'>
+                        <button class="reveal" type="button">add</button>
+                        <div class="hidden status-wrapper" >
+                            <label for="readingStatus">Select reading status:</label>
+                            <select name="readingStatus" id="readingStatus">
+                                <option value="planning">Planning</option>
+                                <option value="reading">Reading</option>
+                                <option value="finished">Finished</option>
+                            </select>
+
+                            <div class="status-buttons">
+                                <input type="submit" value="✓" formaction="/add-book">
+                                <button class="collide">✗</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <% }}); %>
     <% } %>
     </section>
 

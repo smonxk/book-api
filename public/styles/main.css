@@ -92,6 +92,7 @@ h5 {
     display: flex;
     flex-direction: column;
     align-items: center;
+   
 }
 
 .user-books h1 {
@@ -107,8 +108,13 @@ h5 {
     display: grid;
     width: 90%;
     justify-self: center;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 35vh;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: minmax(45vh, auto);
+    justify-content: center;
+}
+
+#user-section .book-container {
+    grid-template-rows: minmax(55vh, auto);
 }
 
 section.user-books:nth-of-type(3){
@@ -117,22 +123,82 @@ section.user-books:nth-of-type(3){
 
 .book-item {
     width: 100%;
-    height: 100%;
     box-sizing: border-box;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     padding: 0.5rem;
-    overflow: hidden;
+    text-align: center;
+    justify-content: center;
+    overflow: visible;
+
 }
 
-.book-item img {
+#latest-section.user-books .book-item{
+    /* display: grid;
+    grid-template-rows: minmax(45vh, auto); -- was nulified with .book-item display flex !important */
+    justify-items: center;
+    overflow: visible;
+}
+
+.no-image {
+    background-color: var(--brown);
+    color: var(--fade-light-brown);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: smaller;
+    padding: 0vh 0.5vw;
+    width: 70%;
+}
+
+.book-item img, .no-image {
     max-height: 80%;
+    min-height: 80%;
     max-width: 100%;
     object-fit: contain;
     border-radius: 15px;
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
 }
+
+#user-section .book-item img, #user-section .no-image {
+    min-height: 35vh;
+    max-height: 35vh;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    margin-bottom: 2vh;
+}
+
+#search-result .book-item img {
+    box-shadow: 3px 3px #e2e2e2, 
+        -1em 0 0.4em #e2e2e2;
+}
+
+#search-result  .book-container {
+    gap: 2vh;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: auto;
+}
+
+#search-result .book-item img, #search-result .no-image {
+   max-height: 20vh;
+    min-height: 20vh;
+}
+
+#search-result .no-image {
+    width: 40%;
+}
+
+#search-result .book-text {
+    min-height: 7vh;
+    overflow: visible;
+
+}
+
+.user-books .book-text {
+    min-height: auto;
+} 
 
 #more-btn, #more-btn:visited {
     background-color: var(--light);
@@ -144,7 +210,7 @@ section.user-books:nth-of-type(3){
 }
 
 .unavailable-error {
-    grid-area: 1 / 3 / 1 / 3;
+    grid-area: 1 / 1 / 1 / -1;
     justify-self: center;
     align-self: center;
 
@@ -183,6 +249,7 @@ section.user-books:nth-of-type(3){
 #searchbar-container {
     display: flex;
     gap: 0.5vw;
+    justify-self:center ;
 }
 
 label[for="searchBar"]{
@@ -202,19 +269,211 @@ label[for="searchBar"]{
     color: var(--dark-brown);
 }
 
-.no-image {
-    background-color: var(--brown);
-    color: var(--fade-light-brown);
+.status-wrapper {
+    background-color: var(--fade-light-brown);
+    width: 8vw;
+    padding: 1vh;
+    border-radius: 15px;
+    justify-self: center;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    font-size: smaller;
-    padding: 0vh 0.5vw;
+    align-items: center;
+}
 
-    max-height: 80%;
-    min-height: 80%;
-    max-width: 100%;
-    object-fit: contain;
+.status-wrapper select {
+    border-radius: 35px;
+    text-align: center;
+    width: 5vw;
+    font-family: "Spectral", serif;
+
+}
+
+.status-wrapper select {
+    border: none;
+}
+
+.status-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5vw;
+    margin-top: 1vh;
+}
+
+.status-buttons input, .status-buttons button {
+    border-radius: 50%;
+    border: none;
+    padding: 0.5vh 1vh;
+    font-weight: 900;
+    font-size: 1.5vh;
+}
+
+.status-buttons button {
+    background-color: black;
+    color: var(--brown);
+}
+
+.status-buttons input {
+    background-color: var(--brown);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.reveal{
+    background-color: var(--fade-light-brown);
+    font-family: var(--modern-font);
     border-radius: 15px;
-    margin-bottom: 1vh;
+    border: none;
+    padding: 0.5em 1em;
+    color: var(--brown);
+    cursor: pointer;
+}
+
+.no-image, .book-text, img {
+    position: relative;
+}
+
+.added {
+    filter: grayscale(100%);
+}
+
+#search-result .book-item img.added {
+    box-shadow: none;
+}
+
+button.added {
+    font-family: var(--modern-font);
+    background-color: var(--light);
+    color: #d4d4d4;
+    border-radius: 15px;
+    border: none;
+    padding: 0.5em 1em;
+}
+
+#simona-reading-list {
+    display: grid;
+    grid: repeat(3, minmax(10vh, auto)) / repeat(3, 1fr);
+}
+
+.contact {
+    grid-area: 1 / 2 / 2 / 3;
+    text-align: center;
+    height: auto;
+    margin-bottom: 3vh;
+    position: relative;
+}
+
+#simona-full-name{
+    background-color: black;
+    color: var(--fade-light-pink);
+    padding: 1.5em 0.9em;
+    border-radius: 15px;
+    font-weight: lighter;
+    width: 50%;
+    justify-self: center;
+    position: relative;
+    z-index: 2;
+    font-family: "Spectral", serif; 
+    font-size: 1.5em;
+    
+    display: flex;
+    flex-direction: column;
+    gap: -1vh;
+}
+
+#simona-full-name small {
+    font-size: 0.6em;
+}
+
+#socials {
+    width: 40%;
+    font-family: "Spectral", serif;
+    padding: 1em 0.5em;
+    border-radius: 10px;
+    border: 1px solid var(--dark-brown);
+    justify-self: center;
+
+    position: relative;
+    z-index: 1;
+    top: -10px;
+}
+
+#socials.closed {
+    z-index: -1; 
+    pointer-events: none; 
+}
+
+
+#socials a, #socials p {
+    text-decoration: none;
+    color: var(--dark-brown);
+    position: relative;
+}
+
+
+#socials a:hover, #socials p:hover {
+    font-weight: 600;
+}
+
+#simona-books {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+    width: 80%;
+    justify-self: center;
+
+    grid-area: 2 / 1 / -1 / -1 ;
+    position: relative;
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+
+#simona-books .book-item {
+    background-color: var(--fade-light-brown);
+    border-radius: 35px;
+    padding: 1em;
+    display: grid;
+    grid-template-rows: repeat(5, minmax(2vh, auto));
+    align-items: center;
+    text-align: center;
+    justify-content: start;
+    gap: 0.5em;
+}
+
+
+#simona-books .book-item img {
+    grid-area: 2 / 1 / 3 / 1 ;
+    max-height: 40%;
+    min-height: 40%;
+}
+
+.simona-status-holder {
+    grid-area: 1 / 1 / 2 / 1;
+    font-family: "Spectral", serif;
+    font-size: 0.8em;
+    background-color: var(--light);
+    border-radius: 35px;
+    padding: 0.3em 1.2em;
+    border: 1px solid var(--dark-brown);
+    z-index: 5;
+    top: 5%;
+    position: relative;
+}
+
+#simona-books .book-item .book-text {
+    grid-area: 3 / 1 / -1 / 1;
+}
+
+#simona-reading-list .book-text small {
+    font-family: "Spectral", serif;
+
+}
+
+#simona-reading-list .book-text p {
+    font-size: 1.4vh;
+    text-align: justify;
+    width: 80%;
+    justify-self: center;
 }
