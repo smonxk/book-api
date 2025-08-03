@@ -1,5 +1,16 @@
 
 $(function() {
+
+    const $items = $(
+        "#search-result .book-item, #simona-books .book-item, #user-section .book-item"
+    ).add($("#latest-section .book-item").last()); //exception with latest-section as only the most recently added book animates itself
+
+    $items.css({
+        opacity: 0, position: "relative", top: "20px"
+    });
+    $("#socials").css({ opacity: 0, top: "-30px" });
+
+    
     $(".reveal").on("click", function(){
         const $form = $(this).closest("form");
         const $status = $form.find(".status-wrapper");
@@ -55,13 +66,6 @@ $(function() {
             rect.top <= window.innerHeight - 50 //50px odshora elementu je ve viewportu
         )
     }
-    const $items = $("#search-result .book-item");
-
-    $items.css({
-        opacity: 0, position: "relative", top: "20px"
-    })
-
-    $("#socials").css({ opacity: 0, top: "-30px" })
 
     function revealVisibleItems(){
         let delayCounter = 0;
@@ -109,6 +113,21 @@ $("#simona-full-name").on("click", function(){
         });
         
         $books.css({transform: "translateY(0px)"});
+    }
+});
+
+$("h4").each(function(){
+    const $this = $(this);
+    const fullText = $this.text();
+    const firstWord = fullText.split(/\s+/)[0];
+
+    
+    if (firstWord.length > 15) {
+        const truncated = firstWord.substring(0,15).trim() + "...";
+        $this.text(truncated).attr("title", fullText)
+    } else if (fullText.length > 45) {
+        const truncated = fullText.substring(0, 45).trim() + "...";
+        $this.text(truncated).attr("title", fullText);
     }
 });
 
